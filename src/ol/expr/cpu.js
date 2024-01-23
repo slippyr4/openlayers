@@ -240,7 +240,19 @@ function compileAccessorExpression(expression, context) {
   const name = /** @type {string} */ (nameExpression.value);
   switch (expression.operator) {
     case Ops.Get: {
-      return (context) => context.properties[name];
+      const defaultValueExpression = /** @type {LiteralExpression} */ (
+        expression.args[2]
+      );
+      const defaultValue = /** @type {string} */ (
+        defaultValueExpression?.value
+      );
+      return (context) => {
+        const value = context.properties[name];
+        if (defaultValue) {
+          return value ?? defaultValue;
+        }
+        return value;
+      }
     }
     case Ops.Var: {
       return (context) => context.variables[name];

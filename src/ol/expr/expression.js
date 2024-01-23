@@ -388,7 +388,7 @@ const parsers = {
       }
       return AnyType;
     },
-    withArgsCount(1, 2),
+    withArgsCount(1, 3),
     withGetArgs,
   ),
   [Ops.Var]: createParser(
@@ -635,8 +635,12 @@ function withGetArgs(encoded, context) {
     throw new Error('Expected a string argument for get operation');
   }
   context.properties.add(arg.value);
-  if (encoded.length === 3) {
+  if (encoded.length >= 3) {
     const hint = parse(encoded[2], context);
+    if (encoded.length === 4) {
+      const def = parse(encoded[3], context);
+      return [arg, hint, def];
+    }
     return [arg, hint];
   }
   return [arg];

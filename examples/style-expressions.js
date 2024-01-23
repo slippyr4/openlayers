@@ -24,7 +24,7 @@ const map = new Map({
         format,
       }),
       style: {
-        'circle-radius': ['get', 'scalerank'],
+        'circle-radius': ['get', 'scalerank', 'number'],
         'circle-fill-color': 'gray',
         'circle-stroke-color': 'white',
         'circle-stroke-width': 0.5,
